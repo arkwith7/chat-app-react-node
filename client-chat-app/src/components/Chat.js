@@ -71,10 +71,31 @@ const Chat = ({ location }) => {
   }, [socket]);
 
   const handleMessageSubmit = (e) => {
-    e.preventDefault();
-    if (message) {
-      socket.emit("msgSend", message, () => setMessage(""));
+    // e.preventDefault();
+    // if (message) {
+    //   socket.emit("msgSend", message, () => setMessage(""));
+    // }
+    let messageToSend;
+
+    if (typeof e === 'string') {
+        messageToSend = e;
+    } else {
+      e.preventDefault();
+      messageToSend = message;
     }
+
+
+    console.log("sendMassage:",messageToSend);
+    // // 이벤트 객체가 전달되었는지 확인
+    // if (e && e.preventDefault) {
+    //   e.preventDefault();
+    //   messageToSend = e.target.value || message;
+    //   console.log("sendMassage:",messageToSend);
+    // }
+  
+    if (messageToSend) {
+      socket.emit("msgSend", messageToSend, () => setMessage(""));
+    }    
   };
 
   return (
